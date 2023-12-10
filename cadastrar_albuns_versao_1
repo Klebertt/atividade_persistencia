@@ -1,0 +1,50 @@
+import tkinter as tk
+from tkinter import messagebox
+
+albums = []
+
+def cadastrar_album():
+    nome_album, ano_lancamento, nome_artista = nome_album_entry.get(), ano_lancamento_entry.get(), nome_artista_entry.get()
+    album = {"Nome": nome_album, "Ano": ano_lancamento, "Artista": nome_artista, "Lançamento": "Sim" if album_lancamento_var.get() else "Não"}
+    albums.append(album)
+    messagebox.showinfo("Cadastro", "Álbum cadastrado!")
+    limpar_campos()
+
+def listar_albums():
+    lista_text.delete(1.0, tk.END)
+    for i, album in enumerate(albums, start=1):
+        lista_text.insert(tk.END, f"\nÁlbum {i}:\n")
+        lista_text.insert(tk.END, f"Nome: {album['Nome']}\nAno: {album['Ano']}\nArtista: {album['Artista']}\nLançamento: {album['Lançamento']}\n\n")
+
+def limpar_campos():
+    nome_album_entry.delete(0, tk.END)
+    ano_lancamento_entry.delete(0, tk.END)
+    nome_artista_entry.delete(0, tk.END)
+    album_lancamento_var.set(False) 
+
+root = tk.Tk()
+root.title("Cadastro e Listagem de Álbuns")
+
+tk.Label(root, text="Nome do Álbum:").pack()
+nome_album_entry = tk.Entry(root)
+nome_album_entry.pack()
+
+tk.Label(root, text="Ano de Lançamento:").pack()
+ano_lancamento_entry = tk.Entry(root)
+ano_lancamento_entry.pack()
+
+tk.Label(root, text="Nome do Artista:").pack()
+nome_artista_entry = tk.Entry(root)
+nome_artista_entry.pack()
+
+album_lancamento_var = tk.BooleanVar()
+tk.Checkbutton(root, text="Álbum de Lançamento", variable=album_lancamento_var).pack()
+
+tk.Button(root, text="Cadastrar", command=cadastrar_album).pack()
+tk.Button(root, text="Listar Álbuns", command=listar_albums).pack()
+tk.Button(root, text="Sair", command=root.destroy).pack()
+
+lista_text = tk.Text(root, height=10, width=40)
+lista_text.pack()
+
+root.mainloop()
